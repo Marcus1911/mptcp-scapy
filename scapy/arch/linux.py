@@ -1,10 +1,10 @@
-## This file is part of Scapy
-## See http://www.secdev.org/projects/scapy for more informations
+## Este arquivo e parte do Scapy
+## Veja http://www.secdev.org/projects/scapy para maiores informacoes
 ## Copyright (C) Philippe Biondi <phil@secdev.org>
-## This program is published under a GPLv2 license
+## Este programa e publicado sob a licenca GPLv2 
 
 """
-Linux specific functions.
+Funcoes especificas do Linux.
 """
 
 from __future__ import with_statement
@@ -21,7 +21,7 @@ from scapy.error import warning
 
 
 
-# From bits/ioctls.h
+# De bits/ioctls.h
 SIOCGIFHWADDR  = 0x8927          # Get hardware address    
 SIOCGIFADDR    = 0x8915          # get PA address          
 SIOCGIFNETMASK = 0x891b          # get network PA mask     
@@ -71,7 +71,7 @@ LOOPBACK_NAME="lo"
 
 with os.popen("tcpdump -V 2> /dev/null") as _f:
     if _f.close() >> 8 == 0x7f:
-        log_loading.warning("Failed to execute tcpdump. Check it is installed and in the PATH")
+        log_loading.warning("Falhou ao executar tcpdump. Veja se este esta instalado em PATH")
         TCPDUMP=0
     else:
         TCPDUMP=1
@@ -116,11 +116,11 @@ def attach_filter(s, filter):
     try:
         f = os.popen("%s -i %s -ddd -s 1600 '%s'" % (conf.prog.tcpdump,conf.iface,filter))
     except OSError,msg:
-        log_interactive.warning("Failed to execute tcpdump: (%s)")
+        log_interactive.warning("Falhou ao executar tcpdump: (%s)")
         return
     lines = f.readlines()
     if f.close():
-        raise Scapy_Exception("Filter parse error")
+        raise Scapy_Exception("Erro de analise no filtro")
     nb = int(lines[0])
     bpf = ""
     for l in lines[1:]:
@@ -157,7 +157,7 @@ def read_routes():
         ifaddr = scapy.utils.inet_ntoa(ifreq[20:24])
         routes.append((dst, msk, "0.0.0.0", LOOPBACK_NAME, ifaddr))
     else:
-        warning("Interface lo: unkown address family (%i)"% addrfamily)
+        warning("Interface lo: familia de enderecos desconhecida (%i)"% addrfamily)
 
     for l in f.readlines()[1:]:
         iff,dst,gw,flags,x,x,x,msk,x,x,x = l.split()
@@ -175,7 +175,7 @@ def read_routes():
             if addrfamily == socket.AF_INET:
                 ifaddr = scapy.utils.inet_ntoa(ifreq[20:24])
             else:
-                warning("Interface %s: unkown address family (%i)"%(iff, addrfamily))
+                warning("Interface %s: familia de enderecos desconhecida (%i)"%(iff, addrfamily))
                 continue
         routes.append((socket.htonl(long(dst,16))&0xffffffffL,
                        socket.htonl(long(msk,16))&0xffffffffL,
@@ -301,7 +301,7 @@ def _flush_fd(fd):
 
 
 class L3PacketSocket(SuperSocket):
-    desc = "read/write packets at layer 3 using Linux PF_PACKET sockets"
+    desc = "ler/escrever pacotes na camada 3 usando sockets Linux PF_PACKET"
     def __init__(self, type = ETH_P_ALL, filter=None, promisc=None, iface=None, nofilter=0):
         self.type = type
         self.ins = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(type))
@@ -312,9 +312,9 @@ class L3PacketSocket(SuperSocket):
         if not nofilter:
             if conf.except_filter:
                 if filter:
-                    filter = "(%s) and not (%s)" % (filter, conf.except_filter)
+                    filter = "(%s) e nao (%s)" % (filter, conf.except_filter)
                 else:
-                    filter = "not (%s)" % conf.except_filter
+                    filter = "nao (%s)" % conf.except_filter
             if filter is not None:
                 attach_filter(self.ins, filter)
         self.ins.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2**30)
@@ -353,7 +353,7 @@ class L3PacketSocket(SuperSocket):
             lvl = 3
         else:
             cls = conf.default_l2
-            warning("Unable to guess type (interface=%s protocol=%#x family=%i). Using %s" % (sa_ll[0],sa_ll[1],sa_ll[3],cls.name))
+            warning(" Impossivel saber o tipo (interface=%s protocol=%#x familia=%i). Usando %s" % (sa_ll[0],sa_ll[1],sa_ll[3],cls.name))
             lvl = 2
 
         try:
@@ -399,7 +399,7 @@ class L3PacketSocket(SuperSocket):
 
 
 class L2Socket(SuperSocket):
-    desc = "read/write packets at layer 2 using Linux PF_PACKET sockets"
+    desc = "ler/escrever pacotes na camada 2 usando sockets Linux PF_PACKET"
     def __init__(self, iface = None, type = ETH_P_ALL, filter=None, nofilter=0):
         if iface is None:
             iface = conf.iface
@@ -409,9 +409,9 @@ class L2Socket(SuperSocket):
         if not nofilter: 
             if conf.except_filter:
                 if filter:
-                    filter = "(%s) and not (%s)" % (filter, conf.except_filter)
+                    filter = "(%s) e nao (%s)" % (filter, conf.except_filter)
                 else:
-                    filter = "not (%s)" % conf.except_filter
+                    filter = "nao (%s)" % conf.except_filter
             if filter is not None:
                 attach_filter(self.ins, filter)
         self.ins.bind((iface, type))
@@ -425,7 +425,7 @@ class L2Socket(SuperSocket):
             self.LL = conf.l3types[sa_ll[1]]
         else:
             self.LL = conf.default_l2
-            warning("Unable to guess type (interface=%s protocol=%#x family=%i). Using %s" % (sa_ll[0],sa_ll[1],sa_ll[3],self.LL.name))
+            warning("Impossivel saber o tipo (interface=%s protocol=%#x familia=%i). Usando %s" % (sa_ll[0],sa_ll[1],sa_ll[3],self.LL.name))
             
     def recv(self, x=MTU):
         pkt, sa_ll = self.ins.recvfrom(x)
@@ -444,7 +444,7 @@ class L2Socket(SuperSocket):
 
 
 class L2ListenSocket(SuperSocket):
-    desc = "read packets at layer 2 using Linux PF_PACKET sockets"
+    desc = "ler pacotes na camada 2 usando sockets Linux PF_PACKET"
     def __init__(self, iface = None, type = ETH_P_ALL, promisc=None, filter=None, nofilter=0):
         self.type = type
         self.outs = None
@@ -456,9 +456,9 @@ class L2ListenSocket(SuperSocket):
         if not nofilter:
             if conf.except_filter:
                 if filter:
-                    filter = "(%s) and not (%s)" % (filter, conf.except_filter)
+                    filter = "(%s) e nao (%s)" % (filter, conf.except_filter)
                 else:
-                    filter = "not (%s)" % conf.except_filter
+                    filter = "nao (%s)" % conf.except_filter
             if filter is not None:
                 attach_filter(self.ins, filter)
         if promisc is None:
@@ -489,7 +489,7 @@ class L2ListenSocket(SuperSocket):
             cls = conf.l3types[sa_ll[1]]
         else:
             cls = conf.default_l2
-            warning("Unable to guess type (interface=%s protocol=%#x family=%i). Using %s" % (sa_ll[0],sa_ll[1],sa_ll[3],cls.name))
+            warning("Impossivel saber o tipo (interface=%s protocol=%#x familia=%i). Usando %s" % (sa_ll[0],sa_ll[1],sa_ll[3],cls.name))
 
         try:
             pkt = cls(pkt)
@@ -503,7 +503,7 @@ class L2ListenSocket(SuperSocket):
         return pkt
     
     def send(self, x):
-        raise Scapy_Exception("Can't send anything with L2ListenSocket")
+        raise Scapy_Exception(" Nao pode enviar qualquer coisa com L2ListenSocket")
 
 
 conf.L3socket = L3PacketSocket
