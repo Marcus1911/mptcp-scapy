@@ -2,31 +2,31 @@
 
 #############################################################################
 ##                                                                         ##
-## scapy.py --- Interactive packet manipulation tool                       ##
-##              see http://www.secdev.org/projects/scapy/                  ##
-##              for more informations                                      ##
+## scapy.py --- Ferramenta Interativa de manipulacao de pacotes            ##
+##              veja http://www.secdev.org/projects/scapy/                 ##
+##              para maiores informacoes                                   ##
 ##                                                                         ##
 ## Copyright (C) Philippe Biondi <phil@secdev.org>                         ##
 ##                                                                         ##
-## This program is free software; you can redistribute it and/or modify it ##
-## under the terms of the GNU General Public License version 2 as          ##
-## published by the Free Software Foundation.                              ##
+## Esse programa e um software livre; voce pode redistribui-lo e/ou        ##
+## modifica-lo sob os termos da General Public License versao 2 como       ##
+## publicado pela Free Software Foundation.                                ##
 ##                                                                         ##
-## This program is distributed in the hope that it will be useful, but     ##
-## WITHOUT ANY WARRANTY; without even the implied warranty of              ##
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ##
-## General Public License for more details.                                ##
+## Este programa e distribuido na esperanca que possa ser util, mas sem    ##
+## SEM NENHUMA GARANTIA; sem nenhuma garantia implicita de COMERCIALIZACAO ##
+## ou ADEQUAÇÃO PARA UM PROPOSITO PARTICULAR. Veja a GNU General Public    ##
+## License para maiores detalhes.                                          ##
 ##                                                                         ##
 #############################################################################
 ##                                                                         ##
-## This is a special version supporting Multipath TCP.                     ##
-## See README for details.                                                 ##
+## Esta é uma versao especial para suporte ao protocolo Multipath TCP      ##
+## Veja README para detalhes.                                              ##
 ##                                                                         ##
 #############################################################################
 
 
 import os
-# use the local version (subdirectory "scapy" in the current directory)
+# use versao local (subdiretorio "scapy" no diretorio corrente)
 os.putenv("PYTHONPATH","%s:%s" % (os.getcwd(), os.getenv("PYTHONPATH")))
 
 from scapy.main import interact
