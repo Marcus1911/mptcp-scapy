@@ -1,10 +1,10 @@
-## This file is part of Scapy
-## See http://www.secdev.org/projects/scapy for more informations
+## Este arquivo e parte do Scapy
+## Veja http://www.secdev.org/projects/scapy para maiores informacoes
 ## Copyright (C) Philippe Biondi <phil@secdev.org>
-## This program is published under a GPLv2 license
+## Este programa e publicado sob a licenca GPLv2
 
 """
-Operating system specific functionality.
+Funcionalidade especifica do sistema operacional.
 """
 
 
@@ -16,14 +16,14 @@ try:
     import Gnuplot
     GNUPLOT=1
 except ImportError:
-    log_loading.info("Can't import python gnuplot wrapper . Won't be able to plot.")
+    log_loading.info("Impossivel importar python gnuplot wrapper. Nao e possivel plotar grafico.")
     GNUPLOT=0
 
 try:
     import pyx
     PYX=1
 except ImportError:
-    log_loading.info("Can't import PyX. Won't be able to use psdump() or pdfdump().")
+    log_loading.info("Impossivel importar PyX. Nao e possivel usar psdump() ou pdfdump().")
     PYX=0
 
 
@@ -40,7 +40,7 @@ def get_if_hwaddr(iff):
     if addrfamily in [ARPHDR_ETHER,ARPHDR_LOOPBACK]:
         return str2mac(mac)
     else:
-        raise Scapy_Exception("Unsupported address family (%i) for interface [%s]" % (addrfamily,iff))
+        raise Scapy_Exception(" Familia de enderecos nao suportada (%i) para interface [%s]" % (addrfamily,iff))
 
 
 LINUX=sys.platform.startswith("linux")
@@ -84,9 +84,9 @@ if scapy.config.conf.iface is None:
 
 def get_if_raw_addr6(iff):
     """
-    Returns the main global unicast address associated with provided 
-    interface, in network format. If no global address is found, None 
-    is returned. 
+    Retorna o principal endereco unicast global associado com a interface 
+    de origem, no formato de rede. Se nao e encontrado nenhum endereco 
+    global, retorna-se None.
     """
     r = filter(lambda x: x[2] == iff and x[1] == IPV6_ADDR_GLOBAL, in6_getifaddr())
     if len(r) == 0:
