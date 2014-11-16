@@ -1,17 +1,21 @@
-This version implements the support for Multipath TCP.
+Esta versão implementa o suporte para Multipath TCP (MPTCP).
 
-It affects the way TCP is handled by adding a packet type for TCP options.  It
-also adds a packet type MPTCP as subtype of a TCP option (see
-scapy/layers/mptcp.py for details).
 
-You can use the script "launcher" to start scapy with the modified script. It
-works only if you are in the same directory that the python "scapy" module.
 
-EXAMPLE RUN
-===========
+Nesta versão, é possível manipular um pacote MPTCP. Para isso, foi adicionado ao campo Options
+do TCP uma opção para o pacote MPTCP (kind = MPTCP). Para maiores detalhes veja em
+scapy/layers/mptcp.py para maiores detalhes.
+
+Você deve usar o script "launcher" para iniciar o Scapy, caso queira utilizá-lo com o código 
+modificado para MPTCP. Lembre-se que Isso funciona apenas se estiver no mesmo diretório que 
+o modulo "Scapy" em python.
+
+
+EXEMPLO DE USO
+==============
 
 $ ./launcher
-Welcome to Scapy (2.2.0)
+Bem vindo ao Scapy (2.2.0)
 >>> a=rdpcap("dumps/mptcp-capable.pcap")
 >>> a
 <mptcp-capable.pcap: TCP:1 UDP:0 ICMP:0 Other:0>
