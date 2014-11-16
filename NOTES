@@ -1,28 +1,28 @@
-- Pour le MP_CAPABLE: il n'y a aucun requirement par rapport à la présence de
-  rcv_key et snd_key. Ils semblent obligatoires, mais ce n'est pas dit
-  explicitement, ni quand il le sont.
+- Para opção MP_CAPABLE: Não há nenhuma exigência em relação à presença de 
+  rcv_key e snd_key. Eles parecem obrigatório, mas não é declarada 
+  explicitamente.
 
-- Bug encore semble encore présent 
+- Bug ainda parece presente 
 
-- 192.135.167.249 semble ne pas répondre en mptcp (pas de mp_capable)
+- 192.135.167.249 parece não responder mptcp (sem mp_capable)
 
 
 ============= 24/11/2011 =============
 
-- Il semblerait que les traces mpTCP que j'ai reçues de Fabien ne suivent pas
-  exactement le draft. En l'occurence, dumps/badDSSpacket.pcap contient un
-  paquet utilisant l'option Data Sequence Signal avec une longueur de 8. Ce qui,
-  selon le draft, ne devrait pas être possible si les flags a et A sont activés
-  comme c'est le cas: 
-   F=0 m=1 M=0 a=1 A=1
-  Cette erreur revient à plusieurs reprises dans le dump fourni.
-  -> Meeting 24/11: bug corrigé dans les dernières versions
+- Conselho parece que não segue exatamente o projecto.
+  Neste caso, dumps/badDSSpacket.pcap contém um pacote usando a opção Data Sequence
+  Signal (DSS) com um comprimento de 8. Isso, de acordo com o projeto, não é 
+  possível se as flags um e A são ativadas como é em casmble não responder 
+  mptcp (sem mp_capable)
+  F=0 m=1 M=0 a=1 A=1
 
-- Il y a quelque chose qui me perturbe avec le checksum de DSS. Le flag M
-  spécifie la présence du checksum ou pas. Cependant, à la fin du paragraphe de
-  la section 3.3, il est indiqué: 
-    "The presence of the checksum can be inferred from the length of the option."
-  Est-ce que le fait que M=0 n'assure pas qu'il n'y ait pas de checksum ?
-  -> Meeting 24/11: checksum présent si "c" est set (négocié avec MP_CAPABLE)
-    -> Corrigé dans scapy en se référant à length pour déterminer la présence du
-    checksum.
+  Retorna este erro várias vezes no despejo fornecido.
+  -> Reunião 24/11: bug corrigido nas versões mais recentes
+
+- Há uma coisa que me perturba com a soma de verificação de DSS. A flag M especifica 
+  a presença da soma de verificação, ou não. No entanto, no final do aragraphe Secção 3.3,
+  afirma-se:
+    "A presença da soma de verificação pode ser inferida a partir da extensão da opção".
+  O fato de M=0, não garante que não há soma de verificação?
+  -> Reunião 24/11: soma de verificação se este "c" está definido (negociado com MP_CAPABLE)
+    -> Scapy corrigido no referente ao comprimento para determinar a presença de soma de verificação
